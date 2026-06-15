@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fahrplan — Serge</title>
+<meta name="robots" content="noindex"> <!-- interne Seite, soll nicht in Google auftauchen -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23BC4A23'/%3E%3Ctext x='50' y='68' font-size='55' font-family='Georgia,serif' font-weight='bold' fill='%23FBF3EA' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#FBF3EA; --card:#FFFDF8; --ink:#2B2118; --ink-soft:#5C5048; --line:#EAD9C9;
+    --accent:#BC4A23; --green:#2E7D4F; --green-soft:#DDEEDF;
+    --serif:Georgia,"Times New Roman",serif;
+    --sans:-apple-system,"system-ui","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6}
+  h1,h3{font-family:var(--serif)}
+  .wrap{max-width:820px;margin:0 auto;padding:48px 24px 80px}
+  a{color:var(--accent)}
+  .back{font-size:.9rem;text-decoration:none}
+  h1{font-size:clamp(1.9rem,4vw,2.6rem);margin:18px 0 12px}
+  .sub{color:var(--ink-soft);margin-bottom:42px;max-width:42em}
+  .kicker{color:var(--accent);font-weight:700;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
+
+  .timeline{position:relative;padding-left:34px}
+  .timeline::before{content:"";position:absolute;left:10px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .phase{position:relative;margin-bottom:34px}
+  .phase::before{content:"";position:absolute;left:-30px;top:5px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:3px solid var(--accent)}
+  .phase.done::before{background:var(--green);border-color:var(--green)}
+  .phase.now::before{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 5px rgba(188,74,35,.18)}
+  .phase .meta{font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+  .phase h3{font-size:1.25rem;margin-bottom:6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .badge{font-family:var(--sans);font-size:.7rem;font-weight:600;padding:3px 10px;border-radius:999px;background:#EFE7DB;color:var(--ink-soft)}
+  .badge.done{background:var(--green-soft);color:var(--green)}
+  .badge.now{background:#F6DDD2;color:var(--accent)}
+  .phase p{color:var(--ink-soft);font-size:.95rem;max-width:46em}
+
+  .note{margin-top:48px;background:#F3ECD9;border:1px dashed #C9B98F;border-radius:14px;padding:18px 22px;font-size:.88rem;color:var(--ink-soft)}
+
+  .block{margin-top:54px}
+  .block h2{font-family:var(--serif);font-size:1.5rem;margin-bottom:6px}
+  .block .lead{color:var(--ink-soft);font-size:.92rem;margin-bottom:18px;max-width:46em}
+  .cards{display:grid;gap:13px}
+  .offer{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 20px}
+  .offer h4{font-family:var(--sans);font-size:1rem;margin-bottom:4px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .offer .price{color:var(--accent);font-weight:700;font-size:.88rem;white-space:nowrap}
+  .offer p{font-size:.88rem;color:var(--ink-soft)}
+  .tag{display:inline-block;font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:2px 9px;border-radius:999px;background:#EFE7DB;color:var(--ink-soft)}
+  .tag.green{background:var(--green-soft);color:var(--green)}
+  .tag.accent{background:#F6DDD2;color:var(--accent)}
+  .highlight{background:var(--green-soft);border:1px solid var(--green);border-radius:14px;padding:18px 22px;font-size:.92rem;color:#1F5236;margin-top:6px}
+  .highlight strong{color:#15402A}
+  .costtable{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:4px}
+  .costtable td{padding:9px 4px;border-bottom:1px solid var(--line);color:var(--ink-soft);vertical-align:top}
+  .costtable tr:last-child td{border-bottom:none;color:var(--ink);font-weight:600}
+  .costtable td:last-child{text-align:right;white-space:nowrap;color:var(--ink);font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html">← Zurück zur Startseite</a>
+  <p class="kicker" style="margin-top:26px">Fahrplan · interne Seite</p>
+  <h1>Wohin Serge wächst.</h1>
+  <p class="sub">Unser Ziel: lokalen Betrieben einen digitalen Mitarbeiter geben, der nie einen Anruf verliert — Schritt für Schritt aufgebaut. Diese Seite ist unser gemeinsames Gedächtnis: Sie hält fest, wo wir stehen und wohin es geht, unabhängig von einzelnen Gesprächen.</p>
+
+  <div class="timeline">
+    <div class="phase done">
+      <p class="meta">Phase 0 · erledigt</p>
+      <h3>Fundament steht <span class="badge done">erledigt</span></h3>
+      <p>Geschäftsmodell, Zielgruppen und Kalkulation durchdacht. Die Webseite ist live. Preisprinzip festgelegt: Zahlung nur bei Erfolg.</p>
+    </div>
+    <div class="phase done">
+      <p class="meta">Phase 0.5 · erledigt</p>
+      <h3>Webseite Version 2 <span class="badge done">erledigt</span></h3>
+      <p>Überarbeitete Seite: Chat-Mockup im Hero, Telegram-CTA, Beispielrechnung, Über-uns-Block, SVG-Icons, Impressum/Datenschutz-Gerüst, SEO-Basics. Fahrplan auf diese interne Seite ausgelagert.</p>
+    </div>
+    <div class="phase done">
+      <p class="meta">Phase 0.6 · erledigt</p>
+      <h3>Webseite Version 3 <span class="badge done">erledigt</span></h3>
+      <p>Neuausrichtung als Baukasten: 3er-Paket (Serge Seite, Sterne, Chat) nach vorne, Rückholer &amp; Telefon als Zusatz, „14 Tage gratis testen“ als Haupt-CTA, hybrides Preismodell. Eigener Ordner serge-v3 — v2 bleibt unangetastet.</p>
+    </div>
+    <div class="phase now">
+      <p class="meta">Phase 1 · jetzt</p>
+      <h3>Chat-Assistent als Vorlage <span class="badge now">in Arbeit</span></h3>
+      <p>Ein wiederverwendbarer Assistent auf Telegram-Basis (n8n), der Anfragen beantwortet und Termine aufnimmt — so gebaut, dass wir ihn pro Betrieb nur noch anpassen. WhatsApp folgt, sobald das Gewerbe angemeldet und das Meta-Business verifiziert ist.</p>
+    </div>
+    <div class="phase">
+      <p class="meta">Phase 2 · geplant</p>
+      <h3>Erster Pilotbetrieb <span class="badge">geplant</span></h3>
+      <p>Ein lokaler Handwerksbetrieb testet Serge im echten Alltag — unverbindlich, im Austausch für ehrliches Feedback.</p>
+    </div>
+    <div class="phase">
+      <p class="meta">Phase 3 · geplant</p>
+      <h3>Telefon-Assistent <span class="badge">geplant</span></h3>
+      <p>Der Telefon-Kanal auf Basis derselben Vorlage — damit auch klassische Anrufe nie mehr verloren gehen.</p>
+    </div>
+    <div class="phase">
+      <p class="meta">Phase 4 · Ziel</p>
+      <h3>Mehr Betriebe, mehr Kanäle <span class="badge">Ziel</span></h3>
+      <p>Schritt für Schritt weitere Betriebe in Handwerk, Gastronomie und Friseur gewinnen — und die Einrichtung immer schneller machen. Offene To-dos auf dem Weg: Gewerbe anmelden, Impressum &amp; Datenschutzerklärung final, echte Telegram-/E-Mail-Kontakte eintragen, Preis pro Auftrag festlegen.</p>
+    </div>
+  </div>
+
+  <div class="note">💡 Dieser Fahrplan ist unser gemeinsamer Anker: Er hält fest, wo wir stehen und wohin es geht — unabhängig von einzelnen Gesprächen. Hier ergänzen und aktualisieren wir die Schritte.</div>
+
+  <!-- ===================== ANGEBOTS-BAUKASTEN ===================== -->
+  <div class="block">
+    <p class="kicker">Entscheidung · 14.06.2026</p>
+    <h2>Angebots-Baukasten</h2>
+    <p class="lead">Serge wird zum Baukasten aus „digitalen Helfern“ für lokale Betriebe — nicht nur ein Kanal, sondern mehrere schnelle Quick-Wins mit wenig Aufwand und wenig Unterhalt. Zwei billige Türöffner zum Reinkommen, zwei wiederkehrende Kern-Leistungen, ein Upsell für später.</p>
+    <div class="cards">
+      <div class="offer">
+        <h4>Serge Seite <span class="price">einmalig ~390–690 € · optional 15–25 €/Mo</span></h4>
+        <p><span class="tag">Türöffner</span> One-Pager, schnell gebaut, Hosting faktisch kostenlos. Höchste Marge, kein Unterhalt. Sofort vorzeigbares Ergebnis.</p>
+      </div>
+      <div class="offer">
+        <h4>Serge Sterne <span class="price">Setup ~150–250 € · 29–49 €/Mo</span></h4>
+        <p><span class="tag">Türöffner</span> Google-Bewertungen-Booster: QR/NFC am Tresen + automatische Anfrage per WhatsApp/SMS. Sichtbarer Effekt (mehr Sterne), verkauft sich emotional.</p>
+      </div>
+      <div class="offer">
+        <h4>Serge Chat <span class="price">erfolgsbasiert ODER 99–199 €/Mo</span></h4>
+        <p><span class="tag green">Kern</span> WhatsApp-/Chat-Assistent + Terminbuchung. Tools darunter nur ~30–50 €/Mo. „Zahlung nur bei Erfolg“ passt hier, weil messbar.</p>
+      </div>
+      <div class="offer">
+        <h4>Serge Rückholer <span class="price">erfolgsbasiert</span></h4>
+        <p><span class="tag green">Kern</span> Kunden-Reaktivierung als Einmal-Aktion: alte Liste anschreiben, Termine zurückholen. Schnelles Cash, Erfolg sofort messbar.</p>
+      </div>
+      <div class="offer">
+        <h4>Serge Telefon <span class="price">später</span></h4>
+        <p><span class="tag accent">Upsell</span> Voice-Agent. Mehr Setup &amp; Wartung — bewusst als Phase 3, nicht als Einstieg.</p>
+      </div>
+    </div>
+    <p class="lead" style="margin-top:16px">Marktlage: Spezialisierung schlägt „wir machen alles“. Eine Nische (z. B. nur Handwerk oder nur Friseure) verkauft messbar besser — als Schärfung später denkbar.</p>
+  </div>
+
+  <!-- ===================== PREISMODELL & TÜRÖFFNER ===================== -->
+  <div class="block">
+    <p class="kicker">Entscheidung · 14.06.2026</p>
+    <h2>Preismodell &amp; Gratis-Test als Türöffner</h2>
+    <p class="lead">Preismodell ist <strong>hybrid</strong>: Türöffner (Seite, Sterne) zu Festpreis — planbar und ehrlich. Kern (Chat, Rückholer) erfolgsbasiert oder als günstige Monatspauschale. Wichtigstes Ziel am Anfang: <strong>überhaupt in den Markt kommen</strong>. Eigene Arbeitszeit gilt zu Beginn bewusst als Markteintritts-Investment, nicht als Kostenposten.</p>
+    <div class="highlight">
+      <strong>Türöffner-Angebot „Gratis-Test“:</strong> 14 Tage gratis testen. 0 € Einrichtung, 0 € Risiko. Serge fängt zwei Wochen lang die Anfragen ab — der Kunde sieht schwarz auf weiß, was Serge geholt hat (alles protokolliert). Gefällt’s nicht, wird abgeschaltet und der Kunde zahlt nichts. Gefällt’s, nennen wir <em>danach</em> den Preis und er entscheidet. Nimmt jede Kaufhürde raus und liefert direkt das Verkaufsargument für danach.
+    </div>
+  </div>
+
+  <!-- ===================== ECHTE BETRIEBSKOSTEN ===================== -->
+  <div class="block">
+    <p class="kicker">Recherche · 14.06.2026</p>
+    <h2>Echte Betriebskosten pro Kunde (ohne Arbeitszeit)</h2>
+    <p class="lead">Der Stack ist günstig, weil das Teure — eingehende Antworten — nichts kostet. Damit ist der Gratis-Test für uns nahezu risikofrei.</p>
+    <table class="costtable">
+      <tr><td><b>Kanal Telegram</b><br>komplett kostenlos</td><td>0 €</td></tr>
+      <tr><td><b>Kanal WhatsApp</b><br>eingehende Antworten im 24-Std-Fenster gratis; nur proaktive Vorlagen (z. B. Terminerinnerung) ~0,8–1 ct/Stück. Über Metas Cloud API direkt = keine BSP-Monatsgebühr</td><td>~0–3 €/Mo</td></tr>
+      <tr><td><b>KI pro Gespräch</b><br>günstiges Modell (z. B. Claude Haiku 4.5 ~1 $/5 $ pro Mio. Token): ~2 ct pro Buchungsgespräch · 100 Anfragen ≈ 2 €, 300 ≈ 6–7 €</td><td>~2–7 €/Mo</td></tr>
+      <tr><td><b>Automatisierung n8n</b><br>selbst gehostet auf Hetzner-VPS — einmalig, geteilt über ALLE Kunden (pro Zusatzkunde ~0 €)</td><td>~5 €/Mo gesamt</td></tr>
+      <tr><td><b>Real pro Kunde</b><br>Telegram ~2–7 € · WhatsApp mit Erinnerungen ~5–12 €. Ein 14-Tage-Test kostet real ~2–5 €.</td><td>~2–12 €/Mo</td></tr>
+    </table>
+    <p class="lead" style="margin-top:14px">Absicherung gegen eigene Verluste: Telegram zuerst (null Nachrichtenkosten), günstiges Modell, weiches Limit im Gratistest (z. B. max. ~200 Gespräche) → Risiko pro Test unter ~5 €.</p>
+  </div>
+
+  <!-- ===================== GRATIS-TEST: ABLAUF ===================== -->
+  <div class="block">
+    <p class="kicker">Funktion · 15.06.2026</p>
+    <h2>So läuft der Gratis-Test (Funktions-Spec)</h2>
+    <p class="lead">Erst Funktion, dann Design-Feinschliff. Der 14-Tage-Test ist die zentrale Grundfunktion — daran hängt, was technisch gebaut wird.</p>
+    <div class="cards">
+      <div class="offer"><h4>1 · Zusage</h4><p>Kunde sagt im Verkaufsgespräch „ja, ich teste“.</p></div>
+      <div class="offer"><h4>2 · Mini-Onboarding (5–10 Min)</h4><p>Abfragen: Öffnungszeiten, Leistungen, grobe Preise, typische Fragen, Terminablauf, Empfänger der Zusammenfassung.</p></div>
+      <div class="offer"><h4>3 · Einrichtung (~1 Std)</h4><p>Serge befüllen, Telegram-Zugang bereitstellen, Anruf-/Chat-Weiterleitung einrichten.</p></div>
+      <div class="offer"><h4>4 · 14-Tage-Lauf</h4><p>Serge beantwortet Anfragen, bucht Termine und protokolliert jeden Kontakt.</p></div>
+      <div class="offer"><h4>5 · Inhaber-Sicht</h4><p>Zusammenfassung nach jedem Kontakt + laufendes Protokoll (Anfragen &amp; gebuchte Termine).</p></div>
+      <div class="offer"><h4>6 · Abschluss</h4><p>„Serge hat X Anfragen / Y Termine“ zeigen → Preis nennen → Kunde entscheidet. Gefällt nicht: abschalten, 0 €.</p></div>
+    </div>
+    <p class="lead" style="margin-top:16px">Zu bauende Funktionen: <strong>Serges Gehirn</strong> (System-Prompt + Wissens-Vorlage, wiederverwendbar) · <strong>Telegram-Bot + n8n-Flow</strong> (Nachricht → KI → Antwort → Log → Zusammenfassung) · <strong>Termin-Logik</strong> (erst einfach, später echte Kalender-Anbindung) · <strong>Protokoll</strong> (Zahlen fürs Abschlussgespräch — wichtigstes Verkaufsargument).</p>
+    <div class="highlight" style="margin-top:14px"><strong>In Arbeit:</strong> Serges Gehirn — System-Prompt + ausfüllbare Wissens-Vorlage (Ordner <em>serge-agent</em>). Danach der n8n-Flow.</div>
+  </div>
+
+  <!-- ===================== SESSION 15.06.2026 ===================== -->
+  <div class="block">
+    <p class="kicker">Session · 15.06.2026</p>
+    <h2>Serge-Agent ist live — erster funktionierender Prototyp</h2>
+    <p class="lead">Von null an einen funktionierenden KI-Mitarbeiter gebaut und live geschaltet. Test-Setup für Malerbetrieb Weber.</p>
+    <div class="cards">
+      <div class="offer"><h4>Was steht</h4><p>Telegram-Bot (BotFather) → n8n-Cloud-Workflow → Google Gemini 2.5 Flash (gratis) + Gedächtnis → Antwort. Aufgebaut über den n8n-MCP-Connector direkt aus Claude heraus. Workflow „Serge — Telegram-Agent (Weber)" ist Published/live.</p></div>
+      <div class="offer"><h4>Was funktioniert</h4><p>Serge beantwortet Anfragen, schlägt Besichtigungstermine vor und erfasst Name/Telefon/Adresse. Guardrail sitzt (bleibt beim Thema, lehnt Betriebsfremdes höflich ab). Gedächtnis pro Kunde (Chat-ID), Fenster 12 Nachrichten.</p></div>
+      <div class="offer"><h4>Erkenntnisse / Setup</h4><p>KI-Zugang braucht API-Key (Gratis-Chat reicht nicht) — Gemini gratis ohne Kreditkarte. „Active" heißt in dieser n8n-Version „Publish". MCP-Connector macht Claude zum direkten n8n-Baumeister — stark für kommende Projekte.</p></div>
+    </div>
+    <p class="lead" style="margin-top:16px">Offene Grenzen aktuell: Termin ist nur „Notiz" im Chat (kein Kalendereintrag). Inhaber bekommt noch keine automatische Zusammenfassung. Simple Memory ist flüchtig (geht bei n8n-Neustart verloren).</p>
+    <div class="highlight" style="margin-top:6px"><strong>Nächste Schritte:</strong> (1) Inhaber-Zusammenfassung nach jedem Gespräch (Telegram/WhatsApp/E-Mail). (2) Google-Kalender-Anbindung — freie Slots prüfen &amp; Termin eintragen. (3) Dauerhaftes Gedächtnis mit kleiner Datenbank statt flüchtigem Speicher. (4) Protokoll/Logging für die Test-Zahlen. (5) Für echten Kunden: Weber-Wissensbasis austauschen.</div>
+  </div>
+
+  <!-- ===================== AUSBAU 15.06.2026 ===================== -->
+  <div class="block">
+    <p class="kicker">Ausbau · 15.06.2026</p>
+    <h2>Inhaber-Benachrichtigung &amp; Rückhol-Mechanismus</h2>
+    <p class="lead">Serge meldet jetzt gezielt — und verliert auch abgebrochene Gespräche nicht.</p>
+    <div class="cards">
+      <div class="offer"><h4>Inhaber-Notiz mit Checkliste</h4><p>Die Notiz an den Inhaber geht erst raus, wenn ein echter Lead abgeschlossen ist: konkreter Termin (Tag + Uhrzeit) + Kundenzusage + Name + Kontakt, ODER Rückruf-Wunsch mit Kontakt, ODER dringender Fall. Ein eigenes Melde-Gedächtnis verhindert Doppel-Notizen.</p></div>
+      <div class="offer"><h4>Protokoll &amp; Abschlüsse</h4><p>Jede Anfrage landet in der Tabelle „Serge Leads", jeder Abschluss in „Serge Abschluesse" — Grundlage für Test-Zahlen und Nachfass.</p></div>
+      <div class="offer"><h4>Nachfass für offene Leads</h4><p>Separater Workflow läuft täglich um 18:00 Uhr: findet Gespräche von heute ohne Abschluss, die seit 1 Stunde still sind, und schickt dem Inhaber eine Sammel-Liste zum Zurückrufen. = „Serge Rückholer" für abgebrochene Chats.</p></div>
+    </div>
+    <p class="lead" style="margin-top:16px">Von der Liste erledigt: Inhaber-Zusammenfassung ✓, Protokoll ✓. Offen: Google-Kalender-Anbindung, dauerhaftes Datenbank-Gedächtnis, Wissensbasis für echten Kunden. Technik-Notiz: Gemini liefert gelegentlich „503 überlastet" — jetzt mit Auto-Wiederholung abgefedert. Zeitzone des 18:00-Checks ggf. noch anpassen.</p>
+  </div>
+
+  <!-- ===================== NÄCHSTER BAUSTEIN: SERGE STERNE ===================== -->
+  <div class="block">
+    <p class="kicker">Nächster Baustein · geplant</p>
+    <h2>Serge Sterne — Google-Bewertungen einsammeln</h2>
+    <p class="lead">Bisher nur als Angebot genannt, noch nicht gebaut. Soll als eigene Logik UND auf der Webseite umgesetzt werden — ergänzt das Portfolio stark.</p>
+    <div class="cards">
+      <div class="offer"><h4>So funktioniert's (geplant)</h4><p>Nach erledigtem Auftrag/Termin bekommt der Kunde automatisch eine freundliche Bewertungs-Einladung (WhatsApp/SMS oder QR-Code/NFC am Tresen) mit Direktlink zur Google-Bewertung. Serge kann das nach Terminabschluss auslösen.</p></div>
+      <div class="offer"><h4>Auf der Webseite</h4><p>Bewertungs-Sektion (Sterne + Zitate) plus „Jetzt bewerten"-Button, verbunden mit dem Google-Profil des Betriebs.</p></div>
+      <div class="offer"><h4>Ehrlicher Hinweis</h4><p>Kein „Filtern" unzufriedener Kunden vor der öffentlichen Bewertung (verstößt gegen Google-Richtlinien). Sauberer Weg: zufriedene Kunden freundlich um eine Bewertung bitten.</p></div>
+    </div>
+  </div>
+
+  <!-- ===================== VERTRIEB / MARKTEINTRITT ===================== -->
+  <div class="block">
+    <p class="kicker">Vertrieb · Notiz</p>
+    <h2>Markteintritt: vor Ort &amp; telefonisch</h2>
+    <p class="lead">Geplanter Weg zu den ersten Kunden: durch die Straßen gehen (lokale Betriebe direkt ansprechen) und/oder anrufen. Erkenntnis: Je mehr Angebote im Köcher, desto effektiver pro Besuch — wenn man schon vor Ort ist, kann man mehr ansprechen und je nach Geschäft das passende Angebot (Seite, Sterne, Chat, Rückholer) auswählen. Spricht dafür, das Portfolio breit zu halten und je Branche schnell zuschneidbar zu machen.</p>
+  </div>
+
+  <!-- ===================== AUSBAU 2 · 15.06.2026 ===================== -->
+  <div class="block">
+    <p class="kicker">Ausbau · 15.06.2026 (Teil 2)</p>
+    <h2>Serge Sterne live + Branchen-Demo</h2>
+    <p class="lead">Bewertungs-Automatik fertig getestet, Demo für die Webseite gebaut, plus Erkenntnisse aus dem Härtetest.</p>
+    <div class="cards">
+      <div class="offer"><h4>Serge Sterne — komplett</h4><p>Beim Abschluss speichert Serge das Termin-Datum (per KI extrahiert). Ein Tages-Check um 10 Uhr schickt allen Kunden mit Termin von gestern automatisch die Google-Bewertungs-Einladung (Link = Platzhalter pro Kunde). End-to-end getestet ✓</p></div>
+      <div class="offer"><h4>Branchen-Demo</h4><p>Konzeptseite branchen-demo.html: Umschalter Maler/Restaurant/Friseur mit animierten Beispielgesprächen im Orange/Sierra-Look. Noch scripted, noch nicht in index integriert.</p></div>
+      <div class="offer"><h4>Erkenntnisse / Fixes</h4><p>Telegram braucht HTML-Modus (Markdown bricht bei Sternchen). Serge darf keine interne Zusammenfassung in die Kundenantwort schreiben (macht der separate Melde-Teil). Gemini-Gratis-Limit: Flash nur 20/Tag → auf Flash-Lite umgestellt (mehr Kontingent, schneller). Idee: kleines Datum-Werkzeug für exakte Wochentage.</p></div>
+    </div>
+    <div class="highlight" style="margin-top:6px"><strong>Nächste Idee — echter Live-Chat auf der Webseite:</strong> entweder ein „Serge testen"-Button, der den echten Telegram-Bot öffnet (sofort machbar), oder ein eingebettetes Chat-Fenster direkt auf der Seite (n8n Chat-Trigger an Serges Gehirn, etwas mehr Aufbau). Macht aus der scripted Demo einen echt funktionierenden Test-Chat.</div>
+  </div>
+
+  <!-- ===================== IDEEN-PARKPLATZ ===================== -->
+  <div class="block">
+    <p class="kicker">Ideen-Parkplatz</p>
+    <h2>Noch nicht umgesetzt, aber vorgemerkt</h2>
+    <div class="cards">
+      <div class="offer">
+        <h4>Messenger-Assistent direkt auf dem One-Pager</h4>
+        <p>In die „Serge Seite“ einen Chat-Assistenten einbauen, der allgemeine Fragen beantwortet und Termine aufnimmt. Verbindet zwei Produkte (Seite + Chat) in einem Angebot — starker Mehrwert und Upsell direkt auf der eigenen Webseite des Kunden.</p>
+      </div>
+      <div class="offer">
+        <h4>Nischen-Schärfung</h4>
+        <p>Bei Bedarf Serge auf EINE Branche zuspitzen (Handwerk oder Friseure) — laut Recherche der stärkste Verkaufs-Hebel.</p>
+      </div>
+      <div class="offer">
+        <h4>Interaktive Branchen-Demo auf der Webseite</h4>
+        <p>Ein Umschalter, mit dem man durch die Geschäftsfälle „kippt" — Maler, Restaurant, Friseur usw. — und pro Fall ein echtes Serge-Beispiel sieht. Idealerweise je ein kurzes Video (Person + Setup), das den Fall zeigt. Angelehnt an Blands Case-Switcher (Healthcare/Insurance), nur für lokale Betriebe.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
