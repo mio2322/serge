@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Serge — Mehr Kunden, ohne mehr Arbeit</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --orange:#E0531E; --orange-2:#BC4A23; --amber:#F0A23B;
+    --teal:#1FA3B8; --blue:#1E6E8C; --gold:#FFC83D;
+    --ink:#1C140E;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  [hidden]{display:none!important}
+  html,body{height:100%}
+  body{font-family:-apple-system,"Segoe UI",Roboto,system-ui,sans-serif;color:#fff;background:#0d0a08;overflow-x:hidden}
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative;min-height:100vh;width:100%;overflow:hidden;display:flex;flex-direction:column}
+  .bgvid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0;transition:opacity .7s ease}
+  .bgvid.show{opacity:1}
+  .overlay{position:absolute;inset:0;z-index:1;
+    background:
+      linear-gradient(180deg, transparent 78%, rgba(251,245,238,.5) 88%, #FBF5EE 96%, #FBF5EE 100%),
+      radial-gradient(120% 75% at 24% 106%, rgba(224,83,30,.4), transparent 52%),
+      radial-gradient(90% 70% at 92% -8%, rgba(31,163,184,.22), transparent 55%),
+      linear-gradient(180deg, rgba(13,10,8,.5) 0%, rgba(13,10,8,.12) 30%, rgba(13,10,8,.2) 58%, rgba(13,10,8,.4) 80%, rgba(13,10,8,0) 100%)}
+  .blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;z-index:1;mix-blend-mode:screen;animation:drift 16s ease-in-out infinite alternate}
+  .blob.o{width:420px;height:420px;background:radial-gradient(circle,#E0531E,transparent 70%);left:-80px;bottom:-120px}
+  .blob.t{width:360px;height:360px;background:radial-gradient(circle,#1FA3B8,transparent 70%);right:-60px;top:-80px;animation-delay:-6s}
+  @keyframes drift{to{transform:translate(40px,-30px) scale(1.12)}}
+
+  /* Top-Leiste */
+  .nav{position:relative;z-index:5;display:flex;align-items:center;justify-content:space-between;padding:22px clamp(20px,5vw,56px)}
+  .navleft{display:flex;align-items:center;gap:clamp(18px,4vw,40px)}
+  .brand{font-weight:800;font-size:1.4rem;letter-spacing:-.02em}
+  .brand b{color:var(--amber)}
+  .nav .cta{font-size:.86rem;font-weight:700;color:#fff;text-decoration:none;
+       background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);
+       backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+       padding:9px 18px;border-radius:999px;transition:background .2s}
+  .nav .cta:hover{background:rgba(255,255,255,.22)}
+
+  /* Branchen-Auswahl: reiner Text, in einer Zeile mit dem Logo */
+  .switch{display:flex;gap:clamp(13px,2.2vw,24px);flex-wrap:wrap}
+  .switch button{font-family:inherit;font-size:.95rem;font-weight:600;color:rgba(255,255,255,.6);
+          background:none;border:0;padding:4px 0;cursor:pointer;letter-spacing:.01em;
+          text-shadow:0 1px 10px rgba(0,0,0,.4);transition:color .2s;position:relative}
+  .switch button:hover{color:rgba(255,255,255,.9)}
+  .switch button.on{color:#fff;font-weight:800}
+  .switch button.on::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;border-radius:2px;
+          background:linear-gradient(90deg,var(--orange),var(--amber))}
+  .switch button.boost{color:#fff}
+  .switch .bstars{color:var(--gold);font-size:.72rem;letter-spacing:1px;margin-left:1px;text-shadow:0 1px 6px rgba(0,0,0,.5)}
+
+  /* Hero-Inhalt */
+  .stage{position:relative;z-index:4;flex:1;display:flex;align-items:flex-end;padding:0 clamp(20px,5vw,56px) clamp(40px,7vh,72px)}
+  .copy{max-width:min(620px,60%)}
+  .loopbadge{display:inline-block;margin-bottom:16px;font-size:.74rem;font-weight:700;letter-spacing:.02em;
+        color:#fff;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);
+        backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+        padding:7px 14px;border-radius:999px;text-shadow:0 1px 8px rgba(0,0,0,.4)}
+  .headline{font-size:clamp(2.1rem,5.2vw,4rem);font-weight:800;line-height:1.02;letter-spacing:-.03em;text-shadow:0 3px 30px rgba(0,0,0,.4)}
+  .headline .acc{background:linear-gradient(100deg,var(--amber),var(--orange));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin-top:18px;font-size:clamp(1rem,1.5vw,1.2rem);font-weight:500;color:rgba(255,255,255,.9);max-width:30em;text-shadow:0 2px 16px rgba(0,0,0,.4)}
+  .hcta{display:inline-flex;align-items:center;gap:9px;margin-top:26px;font-size:1rem;font-weight:800;color:#fff;text-decoration:none;
+        background:linear-gradient(120deg,var(--orange),var(--amber));padding:14px 26px;border-radius:999px;
+        box-shadow:0 12px 34px rgba(224,83,30,.45);transition:transform .15s,box-shadow .2s}
+  .hcta:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(224,83,30,.55)}
+
+  /* Glas-Chat (Sierra-Stil) */
+  .chatwrap{position:absolute;z-index:4;right:clamp(20px,5vw,56px);top:150px;width:min(410px,44%);display:flex;flex-direction:column;gap:11px}
+  .cb{position:relative;max-width:76%;padding:12px 16px;border-radius:18px;font-size:.9rem;line-height:1.42;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.5);
+      backdrop-filter:blur(60px) saturate(1.1);-webkit-backdrop-filter:blur(60px) saturate(1.1);
+      box-shadow:0 14px 34px rgba(0,0,0,.22);opacity:0;transform:translateY(12px) scale(.98);animation:cbin .5s cubic-bezier(.2,.7,.2,1) forwards}
+  .cb::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;
+      background:linear-gradient(180deg,rgba(255,255,255,.6),rgba(255,255,255,0) 60%);
+      -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+  .cb.in{background:rgba(214,128,54,.18);align-self:flex-start;margin-right:auto}
+  .cb.out{background:rgba(224,83,30,.32);align-self:flex-end;margin-left:auto}
+  .cb.stars{background:rgba(255,255,255,.14);align-self:flex-start;margin-right:auto}
+  .cb .stars-row{color:var(--gold);font-size:1.1rem;letter-spacing:3px;margin-bottom:4px;text-shadow:0 1px 6px rgba(0,0,0,.4)}
+  .cb .via{font-size:.66rem;opacity:.75;margin-top:5px}
+  @keyframes cbin{to{opacity:1;transform:translateY(0) scale(1)}}
+
+  /* kleines Fenster: Inhaber arbeitet / Bewertungskarte */
+  .work{position:absolute;z-index:4;right:clamp(20px,5vw,56px);bottom:clamp(40px,7vh,72px);width:190px;border-radius:16px;overflow:hidden;
+        box-shadow:0 16px 40px rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.25)}
+  .work video{display:block;width:100%;height:118px;object-fit:cover}
+  .work .cap{position:absolute;left:0;right:0;bottom:0;padding:8px 10px;font-size:.68rem;font-weight:600;
+        background:linear-gradient(transparent,rgba(0,0,0,.8));color:rgba(255,255,255,.95)}
+  /* Bewertungskarte (Sterne-Reiter) */
+  .reviewcard{height:118px;background:#fff;color:var(--ink);display:flex;flex-direction:column;justify-content:center;gap:5px;padding:13px 15px}
+  .reviewcard .g{font-size:.7rem;font-weight:700;color:#5f6368;letter-spacing:.04em}
+  .reviewcard .g b{color:#4285F4}.reviewcard .g i{color:#EA4335;font-style:normal}.reviewcard .g u{color:#FBBC05;text-decoration:none}.reviewcard .g s{color:#34A853;text-decoration:none}
+  .reviewcard .rate{display:flex;align-items:baseline;gap:8px}
+  .reviewcard .rate b{font-size:1.8rem;line-height:1;font-weight:800}
+  .reviewcard .rs{color:var(--gold);font-size:.9rem;letter-spacing:1px}
+  .reviewcard .cnt{font-size:.64rem;color:#6b5c4e}
+  .reviewcard .cnt i{color:var(--teal);font-style:normal;font-weight:800}
+
+  /* Bewertungs-Szene (Sterne-Reiter): QR-Aufsteller + aufsteigende Reviews */
+  .sternebg{position:absolute;inset:0;z-index:1;pointer-events:none}
+  .sternebg::before{content:"";position:absolute;left:38%;top:48%;width:560px;height:560px;transform:translate(-50%,-50%);
+        background:radial-gradient(circle,rgba(240,162,59,.28),transparent 65%);filter:blur(10px)}
+  .qrstand{position:absolute;left:38%;top:48%;transform:translate(-50%,-50%) rotate(-3deg);width:214px;
+        background:#fff;color:var(--ink);border-radius:20px;padding:18px;box-shadow:0 34px 80px rgba(0,0,0,.55)}
+  .qrstand .qh{font-weight:800;font-size:1.02rem;text-align:center;margin-bottom:13px}
+  .qrstand .qr{width:160px;height:160px;display:block;margin:0 auto}
+  .qrstand .qf{margin-top:13px;text-align:center;font-weight:700;font-size:.82rem}
+  .qrstand .qf .st{display:block;color:var(--gold);letter-spacing:3px;font-size:1.05rem;margin-bottom:3px}
+  .frev{position:absolute;width:190px;background:rgba(255,255,255,.96);color:var(--ink);border-radius:14px;
+        padding:10px 13px;box-shadow:0 16px 40px rgba(0,0,0,.4);opacity:0;animation:floatup 7s ease-in-out infinite}
+  .frev .fr-top{display:flex;align-items:center;gap:7px;font-size:.66rem;color:#5f6368;font-weight:700}
+  .frev .fr-top .st{color:var(--gold);font-size:.82rem;letter-spacing:1px}
+  .frev .ft{font-size:.73rem;margin-top:4px;color:#3a322b}
+  .frev.f1{left:50%;top:26%;animation-delay:0s}
+  .frev.f2{left:55%;top:60%;animation-delay:2.3s}
+  .frev.f3{left:26%;top:20%;animation-delay:4.6s}
+  @keyframes floatup{0%{opacity:0;transform:translateY(22px) scale(.95)}14%{opacity:1}55%{opacity:1;transform:translateY(-10px)}80%{opacity:1}100%{opacity:0;transform:translateY(-34px) scale(.97)}}
+
+  /* ---------- Kernkompetenzen (hell, Bland-Stil mit Blobs) ---------- */
+  .whysec{position:relative;overflow:hidden;background:#FBF5EE;margin-top:-1px;
+        padding:clamp(54px,7vw,90px) clamp(20px,5vw,56px) clamp(56px,7vw,92px)}
+  .whysec .wb1,.whysec .wb2,.whysec .wb3{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
+  .whysec .wb1{width:460px;height:460px;background:radial-gradient(circle,rgba(240,162,59,.5),transparent 70%);left:-90px;top:-180px}
+  .whysec .wb2{width:420px;height:420px;background:radial-gradient(circle,rgba(224,83,30,.3),transparent 70%);right:-110px;top:24%}
+  .whysec .wb3{width:380px;height:380px;background:radial-gradient(circle,rgba(31,163,184,.26),transparent 70%);left:28%;bottom:-150px}
+  .whyhead{position:relative;z-index:2;text-align:center;max-width:780px;margin:0 auto}
+  .whyhead h2{font-size:clamp(1.7rem,3.6vw,2.6rem);font-weight:800;letter-spacing:-.02em;color:var(--ink);line-height:1.07}
+  .whyhead h2 .acc{background:linear-gradient(100deg,var(--orange),var(--amber));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .whyhead .wsub{color:#6b5c4e;margin-top:14px;font-size:clamp(.98rem,1.4vw,1.12rem);line-height:1.6}
+  .pillars{position:relative;z-index:2;display:flex;align-items:stretch;justify-content:center;gap:clamp(8px,1.6vw,20px);margin-top:clamp(26px,4vw,44px);flex-wrap:wrap}
+  .pill{flex:1 1 330px;max-width:410px;background:rgba(255,255,255,.72);border:1px solid rgba(28,20,14,.07);
+        backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:22px;padding:clamp(22px,3vw,30px);box-shadow:0 20px 50px rgba(60,35,18,.1)}
+  .picon{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;margin-bottom:16px}
+  .picon svg{width:26px;height:26px}
+  .pill h3{color:var(--ink);font-size:1.24rem;font-weight:800;margin-bottom:9px}
+  .pill p{color:#6b5c4e;font-size:.97rem;line-height:1.58}
+  .hand-accent{display:flex;align-items:center;gap:10px;margin-top:18px}
+  .hand{font-family:'Caveat',cursive;font-weight:700;color:var(--orange);font-size:1.5rem;line-height:1}
+  .hstars{color:#F0A91E;font-size:1.05rem;letter-spacing:2px}
+  .midloop{flex:0 0 auto;align-self:center;display:flex;flex-direction:column;align-items:center;gap:3px;padding:0 4px;color:var(--orange)}
+  .midloop svg{width:78px;height:58px}
+  .midloop .hand{font-size:1.3rem}
+
+  @media(max-width:760px){
+    .sternebg::before{left:50%}.qrstand{left:50%;top:42%}.frev{display:none}
+    .midloop svg{transform:rotate(90deg)}
+    .chatwrap{position:static;width:auto;margin:26px clamp(20px,5vw,56px) 0}
+    .cb.out{margin-left:0}.cb.in{margin-right:0}
+    .work{position:static;margin:22px clamp(20px,5vw,56px) 30px;width:210px}
+    .copy{max-width:100%}
+    .stage{align-items:flex-start;padding-top:18px}
+  }
+</style>
+</head>
+<body>
+<section class="hero">
+  <video class="bgvid" id="bg" autoplay muted loop playsinline></video>
+  <div class="overlay"></div>
+  <div class="blob o"></div>
+  <div class="blob t"></div>
+
+  <div class="sternebg" id="sternebg" hidden>
+    <div class="qrstand">
+      <div class="qh">Zufrieden? 🙂</div>
+      <svg class="qr" id="qr" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div class="qf"><span class="st">★★★★★</span>Scan &amp; bewerte uns</div>
+    </div>
+    <div class="frev f1"><div class="fr-top"><span class="st">★★★★★</span> Google</div><div class="ft">„Super Arbeit, sehr empfehlenswert!"</div></div>
+    <div class="frev f2"><div class="fr-top"><span class="st">★★★★★</span> Google</div><div class="ft">„Schnell, freundlich, top!"</div></div>
+    <div class="frev f3"><div class="fr-top"><span class="st">★★★★★</span> Google</div><div class="ft">„Immer wieder gerne."</div></div>
+  </div>
+
+  <header class="nav">
+    <div class="navleft">
+      <div class="brand">ser<b>g</b>e</div>
+      <nav class="switch" id="switch">
+        <button data-key="handwerk" class="on">Handwerk</button>
+        <button data-key="restaurant">Restaurant</button>
+        <button data-key="friseur">Friseur</button>
+        <button data-key="sterne" class="boost">Bewertungs-Boost <span class="bstars">★★★★★</span></button>
+      </nav>
+    </div>
+    <a class="cta" href="#">Serge testen</a>
+  </header>
+
+  <div class="stage">
+    <div class="copy">
+      <div class="loopbadge">Mehr Anfragen → Bessere Bewertungen → Mehr Kunden</div>
+      <h1 class="headline" id="hl">Keine Anfrage<br><span class="acc">mehr verpassen.</span></h1>
+      <p class="sub" id="sub">Serge chattet mit deinen Kunden, bucht Termine und sammelt Bewertungen — Tag und Nacht, während du arbeitest.</p>
+      <a class="hcta" href="#">Serge live ausprobieren →</a>
+    </div>
+  </div>
+
+  <div class="chatwrap" id="chat"></div>
+
+  <aside class="work">
+    <video id="workvid" autoplay muted loop playsinline></video>
+    <div class="reviewcard" id="reviewcard" hidden>
+      <div class="g"><b>G</b><i>o</i><u>o</u><b>g</b><s>l</s><i>e</i></div>
+      <div class="rate"><b>4,9</b><span class="rs">★★★★★</span></div>
+      <div class="cnt">128 Bewertungen <i>+1 heute</i></div>
+    </div>
+    <div class="cap" id="workcap">Der Inhaber arbeitet weiter</div>
+  </aside>
+</section>
+
+<!-- ===================== KERNKOMPETENZEN ===================== -->
+<section class="whysec">
+  <div class="wb1"></div><div class="wb2"></div><div class="wb3"></div>
+  <div class="whyhead">
+    <h2>Zwei Dinge entscheiden, ob ein Kunde <span class="acc">bei dir landet.</span></h2>
+    <p class="wsub">Erreichbar sein — und sichtbar durch Bewertungen. Serge übernimmt beides. Und das eine verstärkt das andere.</p>
+  </div>
+
+  <div class="pillars">
+    <div class="pill">
+      <div class="picon" style="background:rgba(224,83,30,.12);border:1px solid rgba(224,83,30,.28)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#E0531E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.5L3 20.5l1.5-5.4A8.5 8.5 0 1 1 21 11.5z"/></svg>
+      </div>
+      <h3>Immer erreichbar</h3>
+      <p>Bei lokalen Betrieben bleibt fast jede zweite Anfrage liegen — und die meisten Kunden melden sich kein zweites Mal, sondern beim Nächsten. Serge antwortet sofort, Tag und Nacht.</p>
+      <div class="hand-accent"><span class="hand">kein Kunde wartet ↯</span></div>
+    </div>
+
+    <div class="midloop">
+      <svg viewBox="0 0 80 60" fill="none" stroke="#E0531E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 22 C 24 8, 56 8, 66 22"/>
+        <polyline points="59 16 67 23 71 14"/>
+        <path d="M66 38 C 56 52, 24 52, 14 38"/>
+        <polyline points="21 44 13 37 9 46"/>
+      </svg>
+      <span class="hand">ein Kreislauf</span>
+    </div>
+
+    <div class="pill">
+      <div class="picon" style="background:rgba(240,169,30,.16);border:1px solid rgba(240,169,30,.42)">
+        <svg viewBox="0 0 24 24" fill="#F0A91E"><polygon points="12,2 15,9 22,9.3 16.5,14 18.5,21.5 12,17.3 5.5,21.5 7.5,14 2,9.3 9,9"/></svg>
+      </div>
+      <h3>Sichtbar durch Bewertungen</h3>
+      <p>Heute schaut jeder zuerst auf die Google-Sterne — beim Restaurant, beim Friseur, beim Handwerker. Ohne frische Bewertungen rutschst du nach unten. Serge fragt nach jedem Termin automatisch danach.</p>
+      <div class="hand-accent"><span class="hstars">★★★★★</span> <span class="hand">die zählen heute</span></div>
+    </div>
+  </div>
+</section>
+
+<script>
+const DEF_HL = 'Keine Anfrage<br><span class="acc">mehr verpassen.</span>';
+const DEF_SUB = 'Serge chattet mit deinen Kunden, bucht Termine und sammelt Bewertungen — Tag und Nacht, während du arbeitest.';
+
+const DATA = {
+  handwerk:{
+    video:"https://assets.mixkit.co/videos/2298/2298-720.mp4",   // Kunde: bemalte Wand / Notsituation
+    work:"https://assets.mixkit.co/videos/33450/33450-720.mp4",  // Profi im Einsatz
+    workcap:"Profi ist gerade im Einsatz",
+    msgs:[
+      {who:"in", t:"Hallo, können Sie nächste Woche streichen?"},
+      {who:"out",t:"Klar! 80 m² Wohnzimmer — Donnerstag 9 Uhr passt. Soll ich's eintragen?"},
+      {who:"in", t:"Ja, gerne."},
+      {who:"out",t:"Erledigt ✓ Termin steht. Bis Donnerstag!"}
+    ]
+  },
+  restaurant:{
+    video:"https://assets.mixkit.co/videos/39789/39789-720.mp4", // Kunde am Handy
+    work:"https://assets.mixkit.co/videos/39535/39535-720.mp4",  // Küche läuft
+    workcap:"Küche ist im vollen Gang",
+    msgs:[
+      {who:"in", t:"Habt ihr Samstag um 20 Uhr einen Tisch für 4?"},
+      {who:"out",t:"Ja, ein Tisch für 4 um 20 Uhr ist frei. Soll ich reservieren?"},
+      {who:"in", t:"Perfekt, bitte."},
+      {who:"out",t:"Reserviert ✓ Wir freuen uns auf Sie!"}
+    ]
+  },
+  friseur:{
+    video:"https://assets.mixkit.co/videos/31405/31405-720.mp4", // Kunde am Handy
+    work:"https://assets.mixkit.co/videos/49556/49556-720.mp4",  // Friseur arbeitet
+    workcap:"Inhaberin ist gerade am Kunden",
+    msgs:[
+      {who:"in", t:"Bekomme ich morgen einen Termin zum Färben?"},
+      {who:"out",t:"Morgen 14 Uhr ist frei (ca. 90 Min.). Soll ich buchen?"},
+      {who:"in", t:"Ja super."},
+      {who:"out",t:"Gebucht ✓ Bis morgen um 14 Uhr!"}
+    ]
+  },
+  sterne:{
+    scene:"reviews",                                             // Grafik-Szene statt Video
+    review:true,
+    headline:'Mehr 5-Sterne-<br><span class="acc">Bewertungen.</span>',
+    sub:'Nach jedem Termin fragt Serge automatisch nach einer Google-Bewertung. Mehr Sterne, mehr Sichtbarkeit, mehr Kunden.',
+    msgs:[
+      {who:"out",t:"Hat alles geklappt? 🙏 Über eine kurze Google-Bewertung freuen wir uns riesig."},
+      {who:"out",t:"⭐ Jetzt bei Google bewerten →"},
+      {who:"in", t:"Klar, sehr gerne!"},
+      {stars:true}
+    ]
+  }
+};
+
+const bg = document.getElementById('bg');
+const sternebg = document.getElementById('sternebg');
+const workvid = document.getElementById('workvid');
+const reviewcard = document.getElementById('reviewcard');
+const workcap = document.getElementById('workcap');
+const chat = document.getElementById('chat');
+let current = null, chatTimer = null;
+
+// QR-Code-Grafik einmalig bauen
+(function buildQR(){
+  const N=21, cell=160/N; let r='', seed=918273;
+  const rnd=()=>{ seed=(seed*1103515245+12345)&0x7fffffff; return seed/0x7fffffff; };
+  const sq=(x,y,w,h,c)=>`<rect x="${x*cell}" y="${y*cell}" width="${w*cell}" height="${h*cell}" fill="${c}"/>`;
+  const finder=(x,y)=> sq(x,y,7,7,'#1c140e')+sq(x+1,y+1,5,5,'#fff')+sq(x+2,y+2,3,3,'#1c140e');
+  for(let y=0;y<N;y++)for(let x=0;x<N;x++){
+    const inF=(x<8&&y<8)||(x>N-9&&y<8)||(x<8&&y>N-9);
+    if(inF) continue;
+    if(rnd()>0.52) r+=sq(x,y,1,1,'#1c140e');
+  }
+  r+=finder(0,0)+finder(N-7,0)+finder(0,N-7);
+  const el=document.getElementById('qr'); if(el) el.innerHTML=r;
+})();
+
+function setIndustry(key){
+  if(key===current) return;
+  current = key;
+  const d = DATA[key];
+  // Hintergrund: Video ODER Bewertungs-Szene
+  bg.classList.remove('show');
+  if(d.scene==='reviews'){
+    sternebg.hidden = false;
+  } else {
+    sternebg.hidden = true;
+    setTimeout(()=>{ bg.src = d.video; bg.load(); bg.play().catch(()=>{}); bg.classList.add('show'); }, 250);
+  }
+  // Headline + Subline
+  document.getElementById('hl').innerHTML = d.headline || DEF_HL;
+  document.getElementById('sub').textContent = d.sub || DEF_SUB;
+  // kleines Fenster: Video ODER Bewertungskarte
+  if(d.review){
+    workvid.hidden = true; reviewcard.hidden = false; workcap.style.display = 'none';
+  } else {
+    reviewcard.hidden = true; workvid.hidden = false; workcap.style.display = 'block';
+    workvid.src = d.work; workvid.load(); workvid.play().catch(()=>{});
+    workcap.textContent = d.workcap;
+  }
+  playChat(d.msgs);
+}
+
+function playChat(msgs){
+  clearTimeout(chatTimer);
+  chat.innerHTML='';
+  let i=0;
+  const step=()=>{
+    if(i>=msgs.length){
+      chatTimer=setTimeout(()=>{ chat.innerHTML=''; i=0; chatTimer=setTimeout(step,400); }, 3400);
+      return;
+    }
+    const m=msgs[i++];
+    const el=document.createElement('div');
+    if(m.stars){
+      el.className='cb stars';
+      el.innerHTML='<div class="stars-row">★★★★★</div><div>„Super Arbeit, alles bestens!"</div><div class="via">via Google</div>';
+    } else {
+      el.className='cb '+m.who;
+      el.textContent=m.t;
+    }
+    chat.appendChild(el);
+    chatTimer=setTimeout(step, m.stars?1500:1250);
+  };
+  step();
+}
+
+document.getElementById('switch').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b) return;
+  document.querySelectorAll('#switch button').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');
+  setIndustry(b.dataset.key);
+});
+
+setIndustry('handwerk');
+</script>
+</body>
+</html>
