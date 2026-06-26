@@ -149,13 +149,34 @@
   .midloop .hand{font-size:1.3rem}
 
   @media(max-width:760px){
-    .sternebg::before{left:50%}.qrstand{left:50%;top:42%}.frev{display:none}
-    .midloop svg{transform:rotate(90deg)}
-    .chatwrap{position:static;width:auto;margin:26px clamp(20px,5vw,56px) 0}
-    .cb.out{margin-left:0}.cb.in{margin-right:0}
-    .work{position:static;margin:22px clamp(20px,5vw,56px) 30px;width:210px}
+    /* Navigation: Logo + Button oben, Branchen-Tabs als zweite Reihe */
+    .nav{flex-wrap:wrap;row-gap:12px;padding:16px clamp(16px,5vw,22px)}
+    .navleft{display:contents}
+    .brand{order:1}
+    .nav .cta{order:2;margin-left:auto}
+    .switch{order:3;flex-basis:100%;width:100%;flex-wrap:wrap;gap:12px 18px}
+
+    /* Hero: kein riesiger Leerraum, Inhalt oben gestapelt */
+    .stage{flex:0 1 auto;align-items:flex-start;padding-top:20px;padding-bottom:22px}
     .copy{max-width:100%}
-    .stage{align-items:flex-start;padding-top:18px}
+    .headline{font-size:2rem;line-height:1.12}
+    .sub{font-size:1rem}
+    .loopbadge{font-size:.68rem}
+
+    /* Chat + Arbeitsfenster gestapelt */
+    .chatwrap{position:static;width:auto;margin:20px clamp(16px,5vw,22px) 0}
+    .cb{max-width:86%}
+    .cb.in{margin-right:auto;margin-left:0}
+    .cb.out{margin-left:auto;margin-right:0}
+    .work{position:static;margin:18px clamp(16px,5vw,22px) 6px;width:200px}
+
+    /* Bewertungs-Szene */
+    .sternebg::before{left:50%}.qrstand{left:50%;top:46%}.frev{display:none}
+
+    /* Kernkompetenzen */
+    .whysec{padding-left:clamp(16px,5vw,22px);padding-right:clamp(16px,5vw,22px)}
+    .whyhead h2{font-size:1.7rem;line-height:1.14}
+    .midloop svg{transform:rotate(90deg)}
   }
 </style>
 </head>
